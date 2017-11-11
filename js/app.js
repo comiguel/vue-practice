@@ -1,29 +1,25 @@
-const vm = new Vue({
-	el: 'main',
-	data: {
-		nuevaTarea: null,
-		tareas: [
-			"Aprender VueJS",
-		],
-		personas: [],
+Vue.component('usuarios', {
+	template: '#usuarios-template',
+	data() {
+		return {
+			buscar: '',
+			usuarios: []
+		}
 	},
 	mounted() {
-		this.buscarPersonas();
+		this.traerUsuarios();
 	},
 	methods: {
-		agregarTarea () {
-			this.tareas.unshift(this.nuevaTarea);
-			this.nuevaTarea = null;
-		},
-		buscarPersonas() {
-			// this.$http.get('https://randomuser.me/api/?results=500')
-			// 	.then((respuesta) => {
-			// 		this.personas = respuesta.body.results;
-			// 	});
+		traerUsuarios(){
 			axios.get('https://randomuser.me/api/?results=500')
 				.then((respuesta) => {
-					this.personas = respuesta.data.results;
+					// console.log(resuesta);
+					this.usuarios = respuesta.data.results;
 				});
 		}
 	}
+});
+
+new Vue({
+	el: 'main'
 })
