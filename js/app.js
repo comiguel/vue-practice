@@ -2,8 +2,8 @@ Vue.component('usuarios', {
 	template: '#usuarios-template',
 	data() {
 		return {
-			buscar: '',
-			usuarios: []
+			usuarios: [],
+			busqueda: '',
 		}
 	},
 	mounted() {
@@ -14,10 +14,29 @@ Vue.component('usuarios', {
 			axios.get('https://randomuser.me/api/?results=500')
 				.then((respuesta) => {
 					// console.log(resuesta);
-					this.usuarios = respuesta.data.results;
+					const listado = respuesta.data.results.map((usuario) => {
+						return {
+							nombre: `${usuario.name.title} ${usuario.name.first} ${usuario.name.last}`,
+							correo: usuario.email,
+							foto: usuario.picture.large
+						};
+					});
+					this.usuarios = listado;
 				});
 		}
+	},
+	computed: {
+		usuariosFiltrados() {
+			return this.usuarios.filter((usuario) => {
+				return usuario.nombre.includes(this.busqueda);
+			});
+		}
 	}
+});
+
+Vue.component('usuario', {
+	props: ['datos'],
+	template: '#usuario-template',
 });
 
 new Vue({

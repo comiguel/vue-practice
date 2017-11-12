@@ -10,16 +10,42 @@
 </head>
 <body>
 	<main>
-		<usuarios><h1>Contenido desde Slot</h1></usuarios>
+		<usuarios>
+			<h1>Usuarios de la empresa</h1>
+		</usuarios>
+	</main>
 
-		<script type="text/x-template" id="usuarios-template">
-			<div>
-				<slot></slot>
-				<input type="search">
+	<script type="text/x-template" id="usuarios-template">
+			<div class="col-md-10 mx-auto">
+				<slot><h1>Usuarios</h1></slot>
+				<div class="row">
+					<div class="col-md-10">
+						<input class="form-control" placeholder="Buscar usuario" v-model="busqueda" type="search">
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-success">Buscar usuario</button>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<!-- <p v-for="usuario in usuarios"> {{ usuario }}</p> -->
+					<usuario v-for="(usuario, index) in usuariosFiltrados" :key="index" :datos="usuario"></usuario>
+				</div>
 			</div>
 		</script>
-		<pre>{{ $data }}</pre>
-	</main>
+
+		<script type="text/x-template" id="usuario-template">
+			<div class="col-md-3">
+				<div class="card">
+					<img :src="datos.foto" :alt="datos.nombre" class="card-img-top">
+					<div class="card-body">
+						<h4 class="card-title">{{ datos.nombre }}</h4>
+						<p class="card-text">{{ datos.correo }}</p>
+					</div>
+				</div>
+			</div>
+		</script>
+		<!-- <pre>{{ $data }}</pre> -->
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.js"></script> -->
 	<script src="js/vue.js"></script>
